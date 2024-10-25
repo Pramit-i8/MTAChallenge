@@ -41,13 +41,6 @@ ax1.plot(filtered_data['Month'], filtered_data['Ridership'], color='blue')
 ax2.plot(filtered_data['Month'], filtered_data['Precipitation'], color='green')
 st.pyplot(fig)
 
-# Recommendations
-st.subheader("Insights and Recommendations")
-st.write("""
-- **Bus Collisions**: Increase safety measures during rainy periods.
-- **Ridership**: Ridership is resilient, with minimal impact from precipitation.
-- **Subway Accidents**: Consider flood mitigation in vulnerable stations.
-""")
 
 # New Section 2: Impact of Precipitation on Subway Customer Accidents
 st.subheader("Impact of Precipitation on Subway Customer Accidents")
@@ -78,3 +71,20 @@ ax.set_title(f'Impact of Precipitation on Bus Collisions (Correlation: {bus_coll
 ax.set_xlabel('Precipitation (inches)')
 ax.set_ylabel('Bus Collisions Per Million Miles')
 st.pyplot(fig)
+
+# Allow users to download the filtered dataset
+st.sidebar.download_button(
+    label="Download filtered data",
+    data=filtered_data.to_csv(index=False),
+    file_name='filtered_data.csv',
+    mime='text/csv'
+)
+
+
+# Recommendations
+st.subheader("Insights and Recommendations")
+st.write("""
+- **Bus Collisions**: Increase safety measures during rainy periods.
+- **Ridership**: Ridership is resilient, with minimal impact from precipitation.
+- **Subway Accidents**: Consider flood mitigation in vulnerable stations.
+""")
