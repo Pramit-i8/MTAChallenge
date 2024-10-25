@@ -1,19 +1,13 @@
-# 🎈 Blank app template
+# MTA Open Data Challenge 
 
-A simple Streamlit app template for you to modify!
+This is a Streamlit app created for the MTA Open Data Challenge. It uses MTA datasets to explore the impact of precipitation on ridership, subway customer accidents, and bus collisions. The app features interactive visualizations, allowing users to filter data by year, ridership, precipitation, and more.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+### Features
+Interactive Filtering: Filter data by year
+Visualizations: Explore the impact of precipitation on subway accidents and bus collisions using mathplot visualizations.
+Data Insights: Provides insights and recommendations based on the analyzed data.
 
-### How to run it on your own machine
-
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+### Datasets Used
+MTA Monthly Ridership / Traffic Data: Data on ridership for various MTA services (subway, buses, etc.).
+MTA NYCT Safety Data: Data on safety-related incidents, including subway customer accidents and bus collisions.
+Weather Data: Data on precipitation from NOAA's weather datasets.
