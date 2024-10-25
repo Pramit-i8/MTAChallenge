@@ -2,52 +2,49 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load the merged dataset (ridership, safety, and weather data)
-@st.cache
+# Load data
+@st.cache_data
 def load_data():
-    # Add your merged dataset loading process here
-    return pd.read_csv('Merged_Weather__Ridership__and_Safety_Data.csv')
+    return pd.read_csv('path_to_your_merged_data.csv')
 
 data = load_data()
 
-# Set up Streamlit 
+# Sidebar filter
+st.sidebar.header("Filter by Year")
+selected_year = st.sidebar.selectbox('Select Year', data['Month'].dt.year.unique())
+filtered_data = data[data['Month'].dt.year == selected_year]
+
+# Correlation and Scatter Plots
 st.title("MTA Ridership, Safety, and Weather Analysis")
 
-# Visualization: Scatter Plot (Precipitation vs Ridership)
-st.subheader("Impact of Precipitation on Ridership")
-precip_ridership_corr = data[['Precipitation', 'Ridership']].corr().iloc[0, 1]
+st.subheader(f"Impact of Precipitation on Ridership in {selected_year}")
+precip_ridership_corr = filtered_data[['Precipitation', 'Ridership']].corr().iloc[0, 1]
 st.write(f"Correlation between Precipitation and Ridership: {precip_ridership_corr:.2f}")
-
-# Plot the scatter plot
 fig, ax = plt.subplots()
-ax.scatter(data['Precipitation'], data['Ridership'], color='blue')
+ax.scatter(filtered_data['Precipitation'], filtered_data['Ridership'], color='blue')
 ax.set_title(f'Impact of Precipitation on Ridership (Correlation: {precip_ridership_corr:.2f})')
-ax.set_xlabel('Total Monthly Precipitation (inches)')
-ax.set_ylabel('Ridership')
 st.pyplot(fig)
 
-# Visualization: Scatter Plot (Precipitation vs Bus Collisions)
-st.subheader("Impact of Precipitation on Bus Collisions")
-bus_collision_corr = data[['Precipitation', 'Bus Collision Per Million Miles']].corr().iloc[0, 1]
-st.write(f"Correlation between Precipitation and Bus Collisions: {bus_collision_corr:.2f}")
-
-# Plot the scatter plot
-fig, ax = plt.subplots()
-ax.scatter(data['Precipitation'], data['Bus Collision Per Million Miles'], color='orange')
-ax.set_title(f'Impact of Precipitation on Bus Collisions (Correlation: {bus_collision_corr:.2f})')
-ax.set_xlabel('Total Monthly Precipitation (inches)')
-ax.set_ylabel('Bus Collisions Per Million Miles')
+# Time Series
+st.subheader(f"Ridership and Precipitation Over Time in {selected_year}")
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+ax1.plot(filtered_data['Month'], filtered_data['Ridership'], color='blue')
+ax2.plot(filtered_data['Month'], filtered_data['Precipitation'], color='green')
 st.pyplot(fig)
 
-# Visualization: Scatter Plot (Precipitation vs Subway Customer Accidents)
-st.subheader("Impact of Precipitation on Subway Customer Accidents")
-subway_accident_corr = data[['Precipitation', 'Subway Customer Accidents']].corr().iloc[0, 1]
-st.write(f"Correlation between Precipitation and Subway Customer Accidents: {subway_accident_corr:.2f}")
+# Recommendations
+st.subheader("Insights and Recommendations")
+st.write("""
+- **Bus Collisions**: Increase safety measures during rainy periods.
+- **Ridership**: Ridership is resilient, with minimal impact from precipitation.
+- **Subway Accidents**: Consider flood mitigation in vulnerable stations.
+""")
 
-# Plot the scatter plot
-fig, ax = plt.subplots()
-ax.scatter(data['Precipitation'], data['Subway Customer Accidents'], color='red')
-ax.set_title(f'Impact of Precipitation on Subway Customer Accidents (Correlation: {subway_accident_corr:.2f})')
-ax.set_xlabel('Total Monthly Precipitation (inches)')
-ax.set_ylabel('Subway Customer Accidents')
-st.pyplot(fig)
+# Explanatory Text
+st.write("""
+### Understanding the Correlation
+- **Positive Correlation**: Precipitation increases the variable.
+- **Negative Correlation**: Precipitation decreases the variable.
+- **Weak Correlation**: Little to no relationship.
+""")
