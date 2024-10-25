@@ -80,7 +80,6 @@ st.sidebar.download_button(
     mime='text/csv'
 )
 
-
 # Recommendations
 st.subheader("Insights and Recommendations")
 st.write("""
